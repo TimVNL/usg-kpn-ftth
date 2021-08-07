@@ -1,0 +1,154 @@
+{
+  "system": {
+    "offload": {
+      "ipv4": {
+        "forwarding": "enable",
+        "gre": "enable",
+        "pppoe": "enable",
+        "vlan": "enable"
+      }
+    },
+    "task-scheduler": {
+      "task": {
+        "igmpcheck": {
+          "executable": {
+            "path": "/config/igmpcheck.sh"
+          },
+          "interval": "5m"
+        }
+      }
+    }
+  },
+  "interfaces": {
+    "ethernet": {
+      "eth0": {
+        "dhcp-options": {
+          "default-route": "no-update",
+          "default-route-distance": "1",
+          "name-server": "no-update"
+        },
+        "description": "WAN",
+        "vif": {
+          "4": {
+            "address": [
+              "dhcp"
+            ],
+            "description": "IPTV",
+            "dhcp-options": {
+              "client-option": [
+                "send vendor-class-identifier &quot;IPTV_RG&quot;;",
+                "request subnet-mask, routers, rfc3442-classless-static-routes;"
+              ],
+              "default-route": "no-update",
+              "default-route-distance": "210",
+              "name-server": "no-update"
+            },
+            "ip": {
+              "source-validation": "loose"
+            },
+            "mtu": "1500"
+          },
+          "6": {
+            "firewall": {
+              "in": {
+                "name": "WAN_IN"
+              },
+              "local": {
+                "name": "WAN_LOCAL"
+              },
+              "out": {
+                "name": "WAN_OUT"
+              }
+            },
+            "pppoe": {
+              "2": {
+                "firewall": {
+                  "in": {
+                    "name": "WAN_IN"
+                  },
+                  "local": {
+                    "name": "WAN_LOCAL"
+                  },
+                  "out": {
+                    "name": "WAN_OUT"
+                  }
+                },
+                "default-route": "auto",
+                "mtu": "1500",
+                "name-server": "auto",
+                "password": "kpn",
+                "user-id": "kpn"
+              }
+            }
+          }
+        }
+      },
+      "eth1": {
+        "description": "LAN"
+      }
+    }
+  },
+  "protocols": {
+    "igmp-proxy": {
+      "interface": {
+        "eth0.4": {
+          "alt-subnet": [
+            "0.0.0.0/0"
+          ],
+          "role": "upstream",
+          "threshold": "1"
+        },
+        "eth1": {
+          "role": "disabled",
+          "threshold": "1"
+        },
+        "eth1.400": {
+          "alt-subnet": [
+            "0.0.0.0/0"
+          ],
+          "role": "downstream",
+          "threshold": "1"
+        },
+        "eth1.500": {
+          "role": "disabled",
+          "threshold": "1"
+        }
+      }
+    }
+  },
+  "port-forward": {
+    "wan-interface": "pppoe2"
+  },
+  "service": {
+    "dns": {
+      "forwarding": {
+        "except-interface": [
+          "pppoe2"
+        ]
+      }
+    },
+    "nat": {
+      "rule": {
+        "5000": {
+          "description": "MASQ all traffic to IPTV network",
+          "destination": {
+            "address": "0.0.0.0/0"
+          },
+          "log": "disable",
+          "outbound-interface": "eth0.4",
+          "protocol": "all",
+          "type": "masquerade"
+        },
+        "6001": {
+          "outbound-interface": "pppoe2"
+        },
+        "6002": {
+          "outbound-interface": "pppoe2"
+        },
+        "6003": {
+          "outbound-interface": "pppoe2"
+        }
+      }
+    }
+  }
+}
