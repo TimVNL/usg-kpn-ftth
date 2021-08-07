@@ -1,7 +1,7 @@
 # My Ubiquiti USG  configuration with KPN FTTH, IPTV, VLANS, IPv4 or IPv6 more..
 This repo contains the files you need to succesfully configure the USG with KPN FTTH with IPTV and IPv6 enabled.
 
-Thanks to @coolhva for all his work I use his configs as base this repo and it is pure for my own documentation if my controller needs a reinstall.
+Thanks to [@coolhva](https://github.com/coolhva/usg-kpn-ftth) for all his work I use his configs as base this repo and it is pure for my own documentation if my controller needs a reinstall.
 Use at your own risk ;)
 
 
@@ -9,7 +9,7 @@ Use at your own risk ;)
 
    The config.gateway.json contains the main configuration with the different interfaces which are needed for internet (vlan 6) and IPTV (vlan 4). IPv4 is configured via PPPoE with the kpn/kpn username and password. KPN uses a TAG which is configured in the DSLAM to identify your connection and to give you your "permanent" public IPv4 address.
 
-   **NOTE: If you want to use IPv4 only please rename the **ipv4_config.gateway.json** to **config.gateway.json**
+   **NOTE:** If you want to use IPv4 only please rename the **ipv4_config.gateway.json** to **config.gateway.json**
 
 2. Place **kpn.sh** in */config/scripts/post-config.d/* via SCP
 3. Execute `chmod +x /config/scripts/post-config.d/kpn.sh` on the USG
@@ -87,7 +87,7 @@ A separate README about this will follow soon
 
 ## Resources
 
-At GoT @coolhva explains a little bit more about the MTU and troubleshooting:
+At GoT @coolhva explains a little bit more about the MTU and troubleshooting:  
 Troubleshooting: https://gathering.tweakers.net/forum/list_message/60188896#60188896  
-MTU and IPv6 workaround: https://gathering.tweakers.net/forum/list_message/57023231#57023231
-@coolhva original guide: https://github.com/coolhva/usg-kpn-ftth
+MTU and IPv6 workaround: https://gathering.tweakers.net/forum/list_message/57023231#57023231  
+[@coolhva](https://github.com/coolhva/)'s original guide: https://github.com/coolhva/usg-kpn-ftth
